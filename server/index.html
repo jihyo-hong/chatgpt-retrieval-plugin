@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="ko">
+        <title>테스트</title>
+    </head>
+<body>
+  <div id="result"></div>
+  <script>
+  var source = new EventSource("http://127.0.0.1:5000/completion");
+  source.onmessage = function(event) {
+    document.getElementById("result").innerHTML += event.data + "<br>";
+  };
+  </script>
+</body>
+</html>

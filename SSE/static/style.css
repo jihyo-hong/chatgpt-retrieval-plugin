@@ -1,0 +1,50 @@
+html {
+	font-family: 'Gowun Dodum', sans-serif;
+}
+
+#drtrue_logo {
+	margin: auto;
+	display: block;
+	margin-top: 20px;
+}
+
+#inputForm {
+	text-align: center;
+	margin: auto;
+	margin-top: 30px;
+	display: block;
+}
+
+#questionBox {
+	border: none;
+	border-bottom: solid black 1px;
+	width: 300px;
+	height: 30px;
+	overflow: scroll:
+}
+	
+input[type=submit] {
+	background: none;
+	height: 34px;
+	margin-left: 10px;
+	border-radius: 3px;
+}
+
+input[type=submit]:hover {
+    animation: grad 0.7s ease forwards;
+    cursor: pointer;
+}
+@keyframes grad {
+    to {
+        background-color: rgba(28, 22, 20, 0.664);
+        color: white;
+    }
+}
+
+#answer {
+	width: 370px;
+	margin: auto;
+	display: block;
+	margin-top: 30px;
+}
+

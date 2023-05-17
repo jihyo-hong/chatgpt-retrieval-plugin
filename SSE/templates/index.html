@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css')}}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+    <title>SSE test</title>
+  </head>
+  <body>
+    <img src="{{ url_for('static', filename='drtrue_logo.jpg')}}" id="drtrue_logo">
+    <div id="inputForm">
+		  <input type="text" placeholder="궁금한 것이 있으신가요?" id="questionBox">
+		  <input type="submit" value="확인">
+    </div>
+    <div id="answer"></div>
+    <script>
+      let answer = document.querySelector("#answer");
+      document.querySelector("input[type=text]").addEventListener("keyup", function(e) {
+        if (event.keyCode == 13) {
+          event.preventDefault();
+          document.querySelector("input[type=submit]").click();
+        }
+      });
+
+      document.querySelector("input[type=submit]").onclick = async function() {
+      const response = await fetch('/completion', {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: document.querySelector("input[type=text]").value,
+        }),
+      });
+
+      console.log(response)
+      if (!response.body)
+        return;
+      const reader = response.body
+        .pipeThrough(new TextDecoderStream())
+        .getReader();
+      console.log(reader)
+      answer.innerHTML += `You: ${document.querySelector("input[type=text]").value}` + "<br>";
+      document.querySelector("input[type=text]").value = "";
+      answer.innerHTML += "ChatGPT: ";
+      while (true) {
+        var { value, done } = await reader.read();
+        if (done) {
+          answer.innerHTML += "<br><br>";
+          break;
+        }
+        answer.innerHTML += value;
+      }
+    }
+    </script>
+  </body>
+</html>
