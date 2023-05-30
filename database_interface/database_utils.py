@@ -77,4 +77,4 @@ def query_database(query_prompt: str) -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-    upsert_file("/drtrue")
+    upsert_file("drtrue")
