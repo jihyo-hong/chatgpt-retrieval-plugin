@@ -1,7 +1,7 @@
 const express = require('express')
 const { Configuration, OpenAIApi } = require("openai");
 const configuration = new Configuration({
-  apiKey: "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",
+  apiKey: "your_openai_api_key",
 });
 const openai = new OpenAIApi(configuration);
 const app = express()
@@ -33,7 +33,7 @@ app.post('/completion', (req, res) => {
         model: "text-davinci-003",
         prompt: q,
         max_tokens: 1000,
-        temperature: 0.5,
+        temperature: 0.5, // 1에 가까울수록 답변의 창의성이 증가
         stream: true,
     }, { responseType: 'stream' });
 

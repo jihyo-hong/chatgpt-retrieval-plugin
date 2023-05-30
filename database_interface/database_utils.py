@@ -6,9 +6,6 @@ from secrets import DATABASE_INTERFACE_BEARER_TOKEN
 SEARCH_TOP_K = 3
 
 def upsert_file(directory: str):
-    """
-    Upload all files under a directory to the vector database.
-    """
     url = "http://0.0.0.0:8000/upsert-file"
     headers = {"Authorization": "Bearer " + DATABASE_INTERFACE_BEARER_TOKEN}
     files = []
@@ -30,9 +27,6 @@ def upsert_file(directory: str):
                     + filename)
 
 def upsert(id: str, content: str):
-    """
-    Upload one piece of text to the database.
-    """
     url = "http://0.0.0.0:8000/upsert"
     headers = {
         "accept": "application/json",
@@ -55,9 +49,6 @@ def upsert(id: str, content: str):
 
 
 def query_database(query_prompt: str) -> Dict[str, Any]:
-    """
-    Query vector database to retrieve chunk with user's input question.
-    """
     url = "http://0.0.0.0:8000/query"
     headers = {
         "Content-Type": "application/json",
@@ -70,7 +61,6 @@ def query_database(query_prompt: str) -> Dict[str, Any]:
 
     if response.status_code == 200:
         result = response.json()
-        # process the result
         return result
     else:
         raise ValueError(f"Error: {response.status_code} : {response.content}")

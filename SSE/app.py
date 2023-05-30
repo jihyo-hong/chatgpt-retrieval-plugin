@@ -2,10 +2,8 @@ import os
 import flask
 import openai
 from flask import Flask, request, render_template
-import requests
-import logging
 
-openai.api_key = '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'
+openai.api_key = 'your_openai_api_key'
 app = Flask(__name__)
 
 @app.route('/')
@@ -15,7 +13,7 @@ def home():
 @app.route('/completion', methods=['POST'])
 def completion_api():
     q = request.get_json().get('prompt')
-    
+
     # 검색 플러그인 테스트용 코드(오류)
     """
     DATABASE_INTERFACE_BEAR_TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.bIgxJr16K-WjXHHQ-Ev9sfrMHGePIR3r67nMgVwgrBk"
