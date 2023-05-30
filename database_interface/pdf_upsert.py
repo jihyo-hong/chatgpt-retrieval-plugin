@@ -2,11 +2,12 @@ from typing import Any, Dict
 import requests
 import os
 from secrets import DATABASE_INTERFACE_BEARER_TOKEN
+from PyPDF2 import PdfReader
 
-SEARCH_TOP_K = 3
+SEARCH_TOP_K = 3 # 사용자의 질문으로부터 검색할 청크의 개수
 
 
-def upsert_file(directory: str)
+def upsert_file(directory: str):
     """
     Upload all files under a directory to the vector database.
     """
@@ -15,20 +16,19 @@ def upsert_file(directory: str)
     files = []
     for filename in os.listdir(directory):
         if os.path.isfile(os.path.join(directory, filename)):
-            file_path = os.path.join(directory, filename)
-            with open(file_path, "rb") as f:
-                file_content = f.read()
-                files.append(("file", (filename, file_content, "text/plain")))
-            response = requests.post(url,
-                                     headers=headers,
-                                     files=files,
-                                     timeout=600)
+            file_path = directory + "/" + filename
+            reader = PdfReader(file_path)
+            pages = reader.pages
+            text = ""
+            for page in pages:
+                sub = page.extract_text()
+                text += sub
+            files.append(("file", (filename, text, "text/plain")))
+            response = requests.post(url, headers=headers, files=files)
             if response.status_code == 200:
                 print(filename + " uploaded successfully.")
             else:
-                print(
-                    f"Error: {response.status_code} {response.content} for uploading "
-                    + filename)
+                print(f"Error: {response.status_code} {response.content} for uploading " + filename)
 
 
 def upsert(id: str, content: str):
@@ -68,7 +68,7 @@ def query_database(query_prompt: str) -> Dict[str, Any]:
     }
     data = {"queries": [{"query": query_prompt, "top_k": SEARCH_TOP_K}]}
 
-    response = requests.post(url, json=data, headers=headers, timeout=600)
+    response = requests.post(url, json=data, headers=headers)
 
     if response.status_code == 200:
         result = response.json()
@@ -79,4 +79,5 @@ def query_database(query_prompt: str) -> Dict[str, Any]:
 
 
 if __name__ == "__main__":
-    upsert_file("/drtrue")
+    upsert_file("/home/jihyo/chatgpt-retrieval-plugin/test/drtrue")
+    
