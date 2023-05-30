@@ -5,8 +5,7 @@ from secrets import DATABASE_INTERFACE_BEARER_TOKEN
 
 SEARCH_TOP_K = 3
 
-
-def upsert_file(directory: str)
+def upsert_file(directory: str):
     """
     Upload all files under a directory to the vector database.
     """
@@ -29,7 +28,6 @@ def upsert_file(directory: str)
                 print(
                     f"Error: {response.status_code} {response.content} for uploading "
                     + filename)
-
 
 def upsert(id: str, content: str):
     """
