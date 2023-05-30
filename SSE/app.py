@@ -15,7 +15,7 @@ def home():
 @app.route('/completion', methods=['POST'])
 def completion_api():
     q = request.get_json().get('prompt')
-
+    
     # 검색 플러그인 테스트용 코드(오류)
     """
     DATABASE_INTERFACE_BEAR_TOKEN="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.bIgxJr16K-WjXHHQ-Ev9sfrMHGePIR3r67nMgVwgrBk"
